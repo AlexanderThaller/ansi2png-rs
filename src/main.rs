@@ -12,14 +12,18 @@ use rusttype::{
     Font,
     Scale,
 };
-use std::path::Path;
+use structopt::StructOpt;
 
+mod opt;
 mod pallete;
 
-fn main() {
-    let parsed: Vec<Output> = include_str!("../resources/out.ansi").ansi_parse().collect();
+use crate::opt::Opt;
 
-    let path = Path::new("output.png");
+fn main() {
+    let opt = Opt::from_args();
+
+    let input_str = std::fs::read_to_string(opt.input_path).unwrap();
+    let parsed: Vec<Output> = input_str.ansi_parse().collect();
 
     let pallete: pallete::Palette = pallete::Custom {}.into();
 
@@ -118,6 +122,7 @@ fn main() {
                         1 => text_bold = true,
                         31 => foreground_color = Rgb(pallete.foreground_red),
                         32 => foreground_color = Rgb(pallete.foreground_green),
+                        33 => foreground_color = Rgb(pallete.foreground_yellow),
                         34 => foreground_color = Rgb(pallete.foreground_blue),
                         _ => {
                             dbg!(("not implemented for", value));
@@ -128,5 +133,5 @@ fn main() {
         }
     });
 
-    let _ = image.save(path).unwrap();
+    let _ = image.save(opt.output_path).unwrap();
 }

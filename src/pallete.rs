@@ -6,6 +6,7 @@ pub struct Palette {
     pub foreground_blue: [u8; 3],
     pub foreground_green: [u8; 3],
     pub foreground_red: [u8; 3],
+    pub foreground_yellow: [u8; 3],
 }
 
 pub struct Custom {}
@@ -21,6 +22,7 @@ impl From<Custom> for Palette {
             foreground_blue: [21, 101, 193],
             foreground_green: [85, 139, 46],
             foreground_red: [198, 40, 40],
+            foreground_yellow: [249, 168, 37],
         }
     }
 }

@@ -1,0 +1,21 @@
+[32mansi2png-rs[0m 0.1.0
+A basic example
+[33m
+USAGE:[0m
+    ansi2png-rs [OPTIONS]
+
+[33mFLAGS:
+[0m    [32m-h[0m, [32m--help[0m
+            Prints help information
+
+    [32m-V[0m, [32m--version[0m
+            Prints version information
+
+
+[33mOPTIONS:
+[0m    [32m-i[0m, [32m--input-path[0m [32m<input-path>[0m
+            Path to the input file. File should contain utf8 text that uses ANSI escape codes [default:
+            [32minput.ansi[0m]
+    [32m-o[0m, [32m--output-path[0m [32m<output-path>[0m
+            Path to output file. Will always write a png regardless of file extenstion [default: [32moutput.png[0m]
+
