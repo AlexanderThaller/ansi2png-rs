@@ -89,7 +89,7 @@ fn main() {
     let mut text_bold = false;
 
     parsed.iter().for_each(|block| match block {
-        Output::TextBlock(text) => text.chars().for_each(|c| {
+        Output::TextBlock(text) => text.chars().filter(|c| *c != '\r').for_each(|c| {
             let draw_font = if text_bold { &font_bold } else { &font };
 
             if c == '\n' {
