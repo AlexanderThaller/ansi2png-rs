@@ -17,7 +17,10 @@ use structopt::StructOpt;
 mod opt;
 mod pallete;
 
-use crate::opt::Opt;
+use crate::{
+    opt::Opt,
+    pallete::Palette,
+};
 
 fn main() {
     let opt = Opt::from_args();
@@ -25,7 +28,7 @@ fn main() {
     let input_str = std::fs::read_to_string(opt.input_path).unwrap();
     let parsed: Vec<Output> = input_str.ansi_parse().collect();
 
-    let pallete: pallete::Palette = pallete::Custom {}.into();
+    let pallete = pallete::Custom::pallete();
 
     let font = Vec::from(
         include_bytes!("../resources/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf") as &[u8],

@@ -1,5 +1,9 @@
+pub trait Palette {
+    fn pallete() -> PaletteData;
+}
+
 #[derive(Debug)]
-pub struct Palette {
+pub struct PaletteData {
     pub primary_background: [u8; 3],
     pub primary_foreground: [u8; 3],
 
@@ -11,9 +15,9 @@ pub struct Palette {
 
 pub struct Custom {}
 
-impl From<Custom> for Palette {
-    fn from(_: Custom) -> Self {
-        Palette {
+impl Palette for Custom {
+    fn pallete() -> PaletteData {
+        PaletteData {
             // primary_background: "0x161616".parse().unwrap(),
             // primary_foreground: "0xf2f2f2".parse().unwrap(),
             primary_background: [22, 22, 22],
