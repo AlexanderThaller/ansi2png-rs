@@ -117,9 +117,10 @@ fn main() {
                         }
                         1 => text_bold = true,
                         31 => foreground_color = Rgb(pallete.foreground_red),
+                        32 => foreground_color = Rgb(pallete.foreground_green),
                         34 => foreground_color = Rgb(pallete.foreground_blue),
                         _ => {
-                            dbg!("not implemented for {}", value);
+                            dbg!(("not implemented for", value));
                         }
                     }
                 }
