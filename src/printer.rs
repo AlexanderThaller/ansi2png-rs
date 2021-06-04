@@ -171,6 +171,7 @@ impl<'a> Perform for Printer<'a> {
                     let defaults = State::default();
 
                     self.state.foreground_color = defaults.foreground_color;
+                    self.state.background_color = defaults.background_color;
                     self.state.font = defaults.font;
                 }
 
@@ -186,6 +187,14 @@ impl<'a> Perform for Printer<'a> {
                     self.state.background_color = color_type
                 }
 
+                EscapeSequence::DefaultForegroundColor => {
+                    self.state.foreground_color = ColorType::PrimaryForeground
+                }
+
+                EscapeSequence::DefaultBackgroundColor => {
+                    self.state.background_color = ColorType::PrimaryBackground
+                }
+
                 EscapeSequence::BlackletterFont
                 | EscapeSequence::Faint
                 | EscapeSequence::SlowBlink
@@ -195,8 +204,6 @@ impl<'a> Perform for Printer<'a> {
                 | EscapeSequence::ReverseVideo
                 | EscapeSequence::Conceal
                 | EscapeSequence::CrossedOut
-                | EscapeSequence::DefaultForegroundColor
-                | EscapeSequence::DefaultBackgroundColor
                 | EscapeSequence::PrimaryFont
                 | EscapeSequence::SetAlternativeFont
                 | EscapeSequence::DisableProportionalSpacing
@@ -209,8 +216,6 @@ impl<'a> Perform for Printer<'a> {
                 EscapeSequence::Unimplemented(value) => {
                     eprintln!("not implemented for value: {:?}", value)
                 }
-
-                EscapeSequence::Todo(_value) => {}
             }
         }
     }
@@ -251,6 +256,21 @@ impl<'a> From<Printer<'a>> for RgbImage {
             );
         }
 
+        // Render background before foreground
+        printer.state.text.iter().for_each(|((x, y), entry)| {
+            let background_end_x = x + printer.settings_internal.glyph_advance_width as u32;
+            let background_end_y = y + printer.settings.font_height as u32;
+
+            for x in *x..background_end_x {
+                for y in *y..background_end_y {
+                    let pixel =
+                        image::Rgb(printer.settings.pallete.get_color(entry.background_color));
+
+                    image.put_pixel(x, y, pixel);
+                }
+            }
+        });
+
         printer.state.text.iter().for_each(|((x, y), entry)| {
             let font = match entry.font {
                 FontState::Normal => &printer.settings.font,
@@ -258,8 +278,6 @@ impl<'a> From<Printer<'a>> for RgbImage {
                 FontState::Italic => &printer.settings.font_italic,
                 FontState::ItalicBold => &printer.settings.font_italic_bold,
             };
-
-            // TODO: Draw background before text
 
             draw_text_mut(
                 &mut image,

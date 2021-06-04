@@ -50,6 +50,7 @@ impl Palette {
         match color {
             ColorType::PrimaryForeground => pallete.primary_foreground,
             ColorType::PrimaryBackground => pallete.primary_background,
+            ColorType::Rgb(rgb) => [rgb.0, rgb.1, rgb.2],
 
             ColorType::Normal(color) => match color {
                 Color::Black => pallete.black,

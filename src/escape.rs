@@ -44,7 +44,6 @@ pub(super) enum EscapeSequence {
     NotReserved,
 
     Unimplemented(Vec<u16>),
-    Todo(Vec<u16>),
 }
 
 impl EscapeSequence {
@@ -77,7 +76,8 @@ impl EscapeSequence {
                     14 => ColorType::Bright(Color::Cyan),
                     15 => ColorType::Bright(Color::White),
 
-                    16..=255 => return vec![Self::Todo(vec![**fg_or_bg, 5, **n])],
+                    // TODO: Implemente rgb colors https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
+                    16..=255 => ColorType::Rgb((0, 0, 0)),
 
                     _ => return vec![Self::Unimplemented(vec![**fg_or_bg, 5, **n])],
                 };
@@ -87,7 +87,7 @@ impl EscapeSequence {
                     38 => vec![Self::ForegroundColor(color)],
 
                     // background
-                    48 => vec![Self::ForegroundColor(color)],
+                    48 => vec![Self::BackgroundColor(color)],
 
                     _ => return vec![Self::Unimplemented(vec![**fg_or_bg, 5, **n])],
                 }

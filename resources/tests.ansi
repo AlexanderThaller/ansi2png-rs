@@ -1,5 +1,8 @@
 SetForegroundColorGreen:
 [38;5;2mGREEN[0m
 
+SetBackgroundColorGreen:
+[48;5;2mGREEN[0m
+
 Bold:
 [1mBOLD[0m
