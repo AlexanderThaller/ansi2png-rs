@@ -9,7 +9,7 @@ use structopt::{
     StructOpt,
 };
 
-/// A basic example
+/// Convert ansi output to pngs
 #[derive(StructOpt, Debug)]
 #[structopt(
     global_settings = &[ColoredHelp, VersionlessSubcommands, NextLineHelp, GlobalVersion]

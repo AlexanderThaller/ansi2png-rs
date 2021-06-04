@@ -1,5 +1,5 @@
 [32mansi2png-rs[0m 0.1.0
-A basic example
+Convert ansi output to pngs
 [33m
 USAGE:[0m
     ansi2png-rs [OPTIONS]

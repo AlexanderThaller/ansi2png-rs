@@ -14,10 +14,16 @@ use rusttype::{
 };
 use structopt::StructOpt;
 
+mod escape;
 mod opt;
 mod pallete;
 
 use crate::{
+    escape::{
+        Color,
+        ColorType,
+        EscapeSequence,
+    },
     opt::Opt,
     pallete::Palette,
 };
@@ -36,9 +42,13 @@ fn main() {
     let font_bold = Vec::from(include_bytes!(
         "../resources/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono-Bold.ttf"
     ) as &[u8]);
+    let font_italic = Vec::from(include_bytes!(
+        "../resources/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono-Oblique.ttf"
+    ) as &[u8]);
 
     let font = Font::try_from_vec(font).unwrap();
     let font_bold = Font::try_from_vec(font_bold).unwrap();
+    let font_italic = Font::try_from_vec(font_italic).unwrap();
 
     let height = 50.0;
     let scale = Scale {
@@ -90,10 +100,18 @@ fn main() {
     let mut draw_y = 0;
     let mut foreground_color = Rgb(pallete.primary_foreground);
     let mut text_bold = false;
+    let mut text_italic = false;
+    let mut text_faint = false;
+    let mut text_underline = false;
 
     parsed.iter().for_each(|block| match block {
         Output::TextBlock(text) => text.chars().filter(|c| *c != '\r').for_each(|c| {
             let draw_font = if text_bold { &font_bold } else { &font };
+            let draw_font = if text_italic || text_faint || text_underline {
+                &font_italic
+            } else {
+                draw_font
+            };
 
             if c == '\n' {
                 draw_x = 0;
@@ -116,22 +134,84 @@ fn main() {
 
         Output::Escape(escape) => {
             if let AnsiSequence::SetGraphicsMode(values) = escape {
-                for value in values {
-                    match value {
-                        0 => {
-                            text_bold = false;
-                            foreground_color = Rgb(pallete.primary_foreground)
+                values
+                    .into_iter()
+                    .map(|value| {
+                        dbg!(value);
+                        value.into()
+                    })
+                    .for_each(|sequence| {
+                        dbg!(&sequence);
+
+                        match sequence {
+                            EscapeSequence::Reset => {
+                                text_bold = false;
+                                foreground_color = Rgb(pallete.primary_foreground)
+                            }
+                            EscapeSequence::Bold => text_bold = true,
+                            EscapeSequence::Italic => text_italic = true,
+                            EscapeSequence::Faint => text_faint = true,
+                            EscapeSequence::Underline => text_underline = true,
+
+                            EscapeSequence::Foreground(color_type) => match color_type {
+                                ColorType::Normal(color) => match color {
+                                    Color::Black => foreground_color = Rgb(pallete.black),
+                                    Color::Red => foreground_color = Rgb(pallete.red),
+                                    Color::Green => foreground_color = Rgb(pallete.green),
+                                    Color::Yellow => foreground_color = Rgb(pallete.yellow),
+                                    Color::Blue => foreground_color = Rgb(pallete.blue),
+                                    Color::Magenta => foreground_color = Rgb(pallete.magenta),
+                                    Color::Cyan => foreground_color = Rgb(pallete.cyan),
+                                    Color::White => foreground_color = Rgb(pallete.white),
+                                },
+
+                                ColorType::Bright(color) => match color {
+                                    Color::Black => foreground_color = Rgb(pallete.bright_black),
+                                    Color::Red => foreground_color = Rgb(pallete.bright_red),
+                                    Color::Green => foreground_color = Rgb(pallete.bright_green),
+                                    Color::Yellow => foreground_color = Rgb(pallete.bright_yellow),
+                                    Color::Blue => foreground_color = Rgb(pallete.bright_blue),
+                                    Color::Magenta => {
+                                        foreground_color = Rgb(pallete.bright_magenta)
+                                    }
+                                    Color::Cyan => foreground_color = Rgb(pallete.bright_cyan),
+                                    Color::White => foreground_color = Rgb(pallete.bright_white),
+                                },
+                            },
+
+                            EscapeSequence::Background(color_type) => match color_type {
+                                ColorType::Normal(color) => match color {
+                                    Color::Black => foreground_color = Rgb(pallete.black),
+                                    Color::Red => foreground_color = Rgb(pallete.red),
+                                    Color::Green => foreground_color = Rgb(pallete.green),
+                                    Color::Yellow => foreground_color = Rgb(pallete.yellow),
+                                    Color::Blue => foreground_color = Rgb(pallete.blue),
+                                    Color::Magenta => foreground_color = Rgb(pallete.magenta),
+                                    Color::Cyan => foreground_color = Rgb(pallete.cyan),
+                                    Color::White => foreground_color = Rgb(pallete.white),
+                                },
+
+                                ColorType::Bright(color) => match color {
+                                    Color::Black => foreground_color = Rgb(pallete.bright_black),
+                                    Color::Red => foreground_color = Rgb(pallete.bright_red),
+                                    Color::Green => foreground_color = Rgb(pallete.bright_green),
+                                    Color::Yellow => foreground_color = Rgb(pallete.bright_yellow),
+                                    Color::Blue => foreground_color = Rgb(pallete.bright_blue),
+                                    Color::Magenta => {
+                                        foreground_color = Rgb(pallete.bright_magenta)
+                                    }
+                                    Color::Cyan => foreground_color = Rgb(pallete.bright_cyan),
+                                    Color::White => foreground_color = Rgb(pallete.bright_white),
+                                },
+                            },
+
+                            EscapeSequence::Unimplemented(v) => {
+                                eprintln!("unimplemented code {}", v)
+                            }
+
+                            _ => {}
                         }
-                        1 => text_bold = true,
-                        31 => foreground_color = Rgb(pallete.foreground_red),
-                        32 => foreground_color = Rgb(pallete.foreground_green),
-                        33 => foreground_color = Rgb(pallete.foreground_yellow),
-                        34 => foreground_color = Rgb(pallete.foreground_blue),
-                        _ => {
-                            dbg!(("not implemented for", value));
-                        }
-                    }
-                }
+                    });
             }
         }
     });
