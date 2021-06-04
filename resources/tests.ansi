@@ -6,3 +6,6 @@ SetBackgroundColorGreen:
 
 Bold:
 [1mBOLD[0m
+
+Underline:
+[4mUNDERLINE[0m

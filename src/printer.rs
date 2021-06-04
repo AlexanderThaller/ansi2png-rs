@@ -41,6 +41,7 @@ struct TextEntry {
     foreground_color: ColorType,
     background_color: ColorType,
     font: FontState,
+    underline: bool,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -60,6 +61,7 @@ struct State {
     background_color: ColorType,
     font: FontState,
     last_execute_byte: Option<u8>,
+    underline: bool,
 }
 
 pub(super) struct Printer<'a> {
@@ -100,6 +102,7 @@ impl Default for State {
             background_color: ColorType::PrimaryBackground,
             font: FontState::Normal,
             last_execute_byte: None,
+            underline: false,
         }
     }
 }
@@ -113,6 +116,7 @@ impl<'a> Perform for Printer<'a> {
                 foreground_color: self.state.foreground_color,
                 background_color: self.state.background_color,
                 font: self.state.font,
+                underline: self.state.underline,
             },
         );
 
@@ -173,12 +177,16 @@ impl<'a> Perform for Printer<'a> {
                     self.state.foreground_color = defaults.foreground_color;
                     self.state.background_color = defaults.background_color;
                     self.state.font = defaults.font;
+                    self.state.underline = false;
                 }
 
                 EscapeSequence::Bold => self.state.font += FontState::Bold,
                 EscapeSequence::Italic => self.state.font += FontState::Italic,
+                EscapeSequence::Underline => self.state.underline = true,
+
                 EscapeSequence::NotBold => self.state.font -= FontState::Bold,
                 EscapeSequence::NotItalicNorBlackletter => self.state.font -= FontState::Italic,
+                EscapeSequence::NotUnderline => self.state.underline = false,
 
                 EscapeSequence::ForegroundColor(color_type) => {
                     self.state.foreground_color = color_type
@@ -198,8 +206,6 @@ impl<'a> Perform for Printer<'a> {
                 EscapeSequence::BlackletterFont
                 | EscapeSequence::Faint
                 | EscapeSequence::SlowBlink
-                | EscapeSequence::Underline
-                | EscapeSequence::NotUnderline
                 | EscapeSequence::NotBlinking
                 | EscapeSequence::ReverseVideo
                 | EscapeSequence::Conceal
@@ -211,7 +217,7 @@ impl<'a> Perform for Printer<'a> {
                 | EscapeSequence::NotReserved
                 | EscapeSequence::NormalItensity
                 | EscapeSequence::RapidBlink => {
-                    // eprintln!("not implemented for action: {:?}", action)
+                    eprintln!("not implemented for action: {:?}", action)
                 }
                 EscapeSequence::Unimplemented(value) => {
                     eprintln!("not implemented for value: {:?}", value)
@@ -287,7 +293,21 @@ impl<'a> From<Printer<'a>> for RgbImage {
                 printer.settings.scale,
                 font,
                 &entry.character.to_string(),
-            )
+            );
+
+            if entry.underline {
+                let underline_start = *x;
+                let underline_end = x + printer.settings_internal.glyph_advance_width as u32;
+                let underline_y = (y - 6) + printer.settings.font_height as u32;
+
+                for underline_x in underline_start..underline_end {
+                    let pixel =
+                        image::Rgb(printer.settings.pallete.get_color(entry.foreground_color));
+
+                    image.put_pixel(underline_x, underline_y - 1, pixel);
+                    image.put_pixel(underline_x, underline_y, pixel);
+                }
+            }
         });
 
         image
