@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use crate::escape::{
+use crate::color::{
     Color,
     ColorType,
 };

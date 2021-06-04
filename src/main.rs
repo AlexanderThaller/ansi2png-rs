@@ -7,6 +7,7 @@ use std::io::Read;
 use structopt::StructOpt;
 use vte::Parser;
 
+mod color;
 mod escape;
 mod opt;
 mod pallete;

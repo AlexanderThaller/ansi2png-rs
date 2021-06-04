@@ -14,10 +14,8 @@ use vte::{
 };
 
 use crate::{
-    escape::{
-        Color,
-        ColorType,
-    },
+    color::ColorType,
+    escape::EscapeSequence,
     pallete::Palette,
 };
 
@@ -130,7 +128,7 @@ impl<'a> Perform for Printer<'a> {
         }
 
         match byte {
-            // newline
+            // newlines
             0x0d | 0x0a => {
                 self.state.current_x = 0;
                 self.state.current_y += self.settings_internal.new_line_distance;
@@ -164,91 +162,60 @@ impl<'a> Perform for Printer<'a> {
         );
     }
 
-    fn csi_dispatch(&mut self, params: &Params, intermediates: &[u8], ignore: bool, c: char) {
-        let params_list: Vec<_> = params.iter().flatten().collect();
+    fn csi_dispatch(&mut self, params: &Params, _intermediates: &[u8], _ignore: bool, _c: char) {
+        let actions = EscapeSequence::parse_params(params);
 
-        match params_list.as_slice() {
-            [value] => match value {
-                0 => {
+        for action in actions {
+            match action {
+                EscapeSequence::Reset => {
                     let defaults = State::default();
 
                     self.state.foreground_color = defaults.foreground_color;
                     self.state.font = defaults.font;
                 }
 
-                1 => {
-                    self.state.font = match self.state.font {
-                        FontState::Bold | FontState::Normal => FontState::Bold,
-                        FontState::Italic | FontState::ItalicBold => FontState::ItalicBold,
-                    }
+                EscapeSequence::Bold => self.state.font += FontState::Bold,
+                EscapeSequence::Italic => self.state.font += FontState::Italic,
+                EscapeSequence::NotBold => self.state.font -= FontState::Bold,
+                EscapeSequence::NotItalicNorBlackletter => self.state.font -= FontState::Italic,
+
+                EscapeSequence::ForegroundColor(color_type) => {
+                    self.state.foreground_color = color_type
+                }
+                EscapeSequence::BackgroundColor(color_type) => {
+                    self.state.background_color = color_type
                 }
 
-                3 => {
-                    self.state.font = match self.state.font {
-                        FontState::Italic | FontState::Normal => FontState::Italic,
-                        FontState::Bold | FontState::ItalicBold => FontState::ItalicBold,
-                    }
+                EscapeSequence::BlackletterFont
+                | EscapeSequence::Faint
+                | EscapeSequence::SlowBlink
+                | EscapeSequence::Underline
+                | EscapeSequence::NotUnderline
+                | EscapeSequence::NotBlinking
+                | EscapeSequence::ReverseVideo
+                | EscapeSequence::Conceal
+                | EscapeSequence::CrossedOut
+                | EscapeSequence::DefaultForegroundColor
+                | EscapeSequence::DefaultBackgroundColor
+                | EscapeSequence::PrimaryFont
+                | EscapeSequence::SetAlternativeFont
+                | EscapeSequence::DisableProportionalSpacing
+                | EscapeSequence::NeitherSuperscriptNorSubscript
+                | EscapeSequence::NotReserved
+                | EscapeSequence::NormalItensity
+                | EscapeSequence::RapidBlink => {
+                    // eprintln!("not implemented for action: {:?}", action)
+                }
+                EscapeSequence::Unimplemented(value) => {
+                    eprintln!("not implemented for value: {:?}", value)
                 }
 
-                32 => self.state.foreground_color = ColorType::Normal(Color::Green),
-                33 => self.state.foreground_color = ColorType::Normal(Color::Yellow),
-
-                other => {
-                    println!(
-                        "[csi_dispatch] params={:#?}, intermediates={:?}, ignore={:?}, char={:?}",
-                        params, intermediates, ignore, c
-                    );
-
-                    dbg!(other);
-                }
-            },
-
-            [1, 31] => {
-                self.state.foreground_color = ColorType::Normal(Color::Red);
-                self.state.font = match self.state.font {
-                    FontState::Bold | FontState::Normal => FontState::Bold,
-                    FontState::Italic | FontState::ItalicBold => FontState::ItalicBold,
-                }
-            }
-
-            [1, 34] => {
-                self.state.foreground_color = ColorType::Normal(Color::Blue);
-                self.state.font = match self.state.font {
-                    FontState::Bold | FontState::Normal => FontState::Bold,
-                    FontState::Italic | FontState::ItalicBold => FontState::ItalicBold,
-                }
-            }
-
-            [38, 5, value] => match value {
-                2 => self.state.foreground_color = ColorType::Normal(Color::Green),
-
-                other => {
-                    println!(
-                        "[csi_dispatch] params={:#?}, intermediates={:?}, ignore={:?}, char={:?}",
-                        params, intermediates, ignore, c
-                    );
-
-                    dbg!(other);
-                }
-            },
-
-            other => {
-                println!(
-                    "[csi_dispatch] params={:#?}, intermediates={:?}, ignore={:?}, char={:?}",
-                    params, intermediates, ignore, c
-                );
-
-                dbg!(other);
+                EscapeSequence::Todo(_value) => {}
             }
         }
     }
 
-    fn esc_dispatch(&mut self, intermediates: &[u8], ignore: bool, byte: u8) {
-        println!(
-            "[esc_dispatch] intermediates={:?}, ignore={:?}, byte={:02x}",
-            intermediates, ignore, byte
-        );
-    }
+    fn esc_dispatch(&mut self, _intermediates: &[u8], _ignore: bool, _byte: u8) {}
 }
 
 impl<'a> From<Printer<'a>> for RgbImage {
@@ -306,5 +273,61 @@ impl<'a> From<Printer<'a>> for RgbImage {
         });
 
         image
+    }
+}
+
+impl std::ops::AddAssign for FontState {
+    fn add_assign(&mut self, other: Self) {
+        let new_self = match (&self, other) {
+            (Self::Normal, Self::Normal) => Self::Normal,
+
+            (Self::Bold, Self::Bold) | (Self::Bold, Self::Normal) | (Self::Normal, Self::Bold) => {
+                Self::Bold
+            }
+
+            (Self::Italic, Self::Italic)
+            | (Self::Italic, Self::Normal)
+            | (Self::Normal, Self::Italic) => Self::Italic,
+
+            (Self::Bold, Self::Italic)
+            | (Self::Bold, Self::ItalicBold)
+            | (Self::ItalicBold, Self::Bold)
+            | (Self::ItalicBold, Self::Italic)
+            | (Self::ItalicBold, Self::ItalicBold)
+            | (Self::ItalicBold, Self::Normal)
+            | (Self::Italic, Self::Bold)
+            | (Self::Italic, Self::ItalicBold)
+            | (Self::Normal, Self::ItalicBold) => Self::ItalicBold,
+        };
+
+        *self = new_self
+    }
+}
+
+impl std::ops::SubAssign for FontState {
+    fn sub_assign(&mut self, other: Self) {
+        let new_self = match (&self, other) {
+            (Self::Italic, Self::Italic)
+            | (Self::ItalicBold, Self::ItalicBold)
+            | (Self::Bold, Self::Bold)
+            | (Self::Normal, Self::Normal)
+            | (Self::Normal, Self::Bold)
+            | (Self::Normal, Self::Italic)
+            | (Self::Bold, Self::ItalicBold)
+            | (Self::Italic, Self::ItalicBold)
+            | (Self::Normal, Self::ItalicBold) => Self::Normal,
+
+            (Self::Bold, Self::Normal)
+            | (Self::Bold, Self::Italic)
+            | (Self::ItalicBold, Self::Italic) => Self::Bold,
+
+            (Self::Italic, Self::Normal)
+            | (Self::Italic, Self::Bold)
+            | (Self::ItalicBold, Self::Bold) => Self::Italic,
+
+            (Self::ItalicBold, Self::Normal) => Self::ItalicBold,
+        };
+
+        *self = new_self
     }
 }
