@@ -78,7 +78,7 @@ pub(super) fn new(settings: Settings) -> Printer {
         .h_metrics()
         .advance_width;
 
-    let new_line_distance = settings.font_height as u32 - 7;
+    let new_line_distance = settings.font_height as u32;
 
     let settings_internal = SettingsInternal {
         glyph_advance_width,
@@ -247,8 +247,7 @@ impl<'a> From<Printer<'a>> for RgbImage {
             .map(|(_, y)| y)
             .max()
             .unwrap_or(&0)
-            + printer.settings_internal.new_line_distance * 2
-            - 30;
+            + printer.settings_internal.new_line_distance;
 
         let mut image = RgbImage::new(width, height);
 
