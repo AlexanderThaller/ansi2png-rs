@@ -2,9 +2,16 @@
 
 Read ansi sequences from a file and generate a png from it.
 
-Generated from [resources/out.ansi](resources/out.ansi):
+## Examples
 
+Generated from [resources/out.ansi](resources/out.ansi):
 !["example output"](resources/out.png)
 
 Generated from [resources/ansi2png_help.ansi](resources/ansi2png_help.ansi):
 !["ansi2png help output"](resources/ansi2png_help.png)
+
+Generated from [resources/msgcat.ansi](resources/msgcat.ansi):
+!["example msgcat"](resources/msgcat.png)
+
+Generated from [resources/tests.ansi](resources/tests.ansi):
+!["example tests"](resources/tests.png)

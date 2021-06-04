@@ -256,8 +256,8 @@ impl<'a> From<Printer<'a>> for RgbImage {
             );
         }
 
-        // Render background before foreground
-        printer.state.text.iter().for_each(|((x, y), entry)| {
+        // Render background before foreground from bottom to top to make it look better
+        printer.state.text.iter().rev().for_each(|((x, y), entry)| {
             let background_end_x = x + printer.settings_internal.glyph_advance_width as u32;
             let background_end_y = y + printer.settings.font_height as u32;
 
