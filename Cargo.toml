@@ -11,8 +11,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ansi-parser = "0.8"
 image = "0.23"
 imageproc = "0.22"
 rusttype = "0.9"
 structopt = "0.3"
+vte = "0.10"

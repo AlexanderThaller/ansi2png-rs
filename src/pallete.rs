@@ -1,5 +1,15 @@
-pub trait Palette {
-    fn pallete() -> PaletteData;
+use std::fmt::Debug;
+
+use crate::escape::{
+    Color,
+    ColorType,
+};
+
+#[allow(dead_code)]
+#[derive(Debug)]
+pub(super) enum Palette {
+    Custom,
+    Test,
 }
 
 #[derive(Debug)]
@@ -26,33 +36,96 @@ pub struct PaletteData {
     pub bright_white: [u8; 3],
 }
 
-pub struct Custom {}
-
-impl Palette for Custom {
-    fn pallete() -> PaletteData {
-        PaletteData {
-            // primary_background: "0x161616".parse().unwrap(),
-            // primary_foreground: "0xf2f2f2".parse().unwrap(),
-            primary_foreground: [242, 242, 242],
-            primary_background: [22, 22, 22],
-
-            black: [44, 44, 44],
-            red: [198, 40, 40],
-            green: [85, 139, 46],
-            yellow: [249, 168, 37],
-            blue: [21, 101, 193],
-            magenta: [168, 37, 191],
-            cyan: [0, 131, 143],
-            white: [255, 255, 255],
-
-            bright_black: [44, 44, 44],
-            bright_red: [198, 40, 40],
-            bright_green: [85, 139, 46],
-            bright_yellow: [249, 168, 37],
-            bright_blue: [21, 101, 193],
-            bright_magenta: [168, 37, 191],
-            bright_cyan: [0, 131, 143],
-            bright_white: [255, 255, 255],
+impl Palette {
+    fn pallete(&self) -> PaletteData {
+        match self {
+            Palette::Custom => pallete_custom(),
+            Palette::Test => pallete_test(),
         }
+    }
+
+    pub fn get_color(&self, color: ColorType) -> [u8; 3] {
+        let pallete = self.pallete();
+
+        match color {
+            ColorType::PrimaryForeground => pallete.primary_foreground,
+            ColorType::PrimaryBackground => pallete.primary_background,
+
+            ColorType::Normal(color) => match color {
+                Color::Black => pallete.black,
+                Color::Red => pallete.red,
+                Color::Green => pallete.green,
+                Color::Yellow => pallete.yellow,
+                Color::Blue => pallete.blue,
+                Color::Magenta => pallete.magenta,
+                Color::Cyan => pallete.cyan,
+                Color::White => pallete.white,
+            },
+
+            ColorType::Bright(color) => match color {
+                Color::Black => pallete.bright_black,
+                Color::Red => pallete.bright_red,
+                Color::Green => pallete.bright_green,
+                Color::Yellow => pallete.bright_yellow,
+                Color::Blue => pallete.bright_blue,
+                Color::Magenta => pallete.bright_magenta,
+                Color::Cyan => pallete.bright_cyan,
+                Color::White => pallete.bright_white,
+            },
+        }
+    }
+}
+
+fn pallete_custom() -> PaletteData {
+    PaletteData {
+        // primary_background: "0x161616".parse().unwrap()
+        // primary_foreground: "0xf2f2f2".parse().unwrap()
+        primary_foreground: [242, 242, 242],
+        primary_background: [22, 22, 22],
+
+        black: [44, 44, 44],
+        red: [198, 40, 40],
+        green: [85, 139, 46],
+        yellow: [249, 168, 37],
+        blue: [21, 101, 193],
+        magenta: [168, 37, 191],
+        cyan: [0, 131, 143],
+        white: [255, 255, 255],
+
+        bright_black: [44, 44, 44],
+        bright_red: [198, 40, 40],
+        bright_green: [85, 139, 46],
+        bright_yellow: [249, 168, 37],
+        bright_blue: [21, 101, 193],
+        bright_magenta: [168, 37, 191],
+        bright_cyan: [0, 131, 143],
+        bright_white: [255, 255, 255],
+    }
+}
+
+fn pallete_test() -> PaletteData {
+    PaletteData {
+        // primary_background: "0x161616".parse().unwrap()
+        // primary_foreground: "0xf2f2f2".parse().unwrap()
+        primary_foreground: [0, 0, 0],
+        primary_background: [255, 255, 255],
+
+        black: [0, 0, 0],
+        red: [255, 0, 0],
+        green: [0, 255, 0],
+        yellow: [249, 168, 37],
+        blue: [0, 0, 255],
+        magenta: [168, 37, 191],
+        cyan: [0, 131, 143],
+        white: [255, 255, 255],
+
+        bright_black: [44, 44, 44],
+        bright_red: [198, 40, 40],
+        bright_green: [85, 139, 46],
+        bright_yellow: [249, 168, 37],
+        bright_blue: [21, 101, 193],
+        bright_magenta: [168, 37, 191],
+        bright_cyan: [0, 131, 143],
+        bright_white: [255, 255, 255],
     }
 }

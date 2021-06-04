@@ -1,6 +1,6 @@
 /// From https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub(super) enum EscapeSequence {
     Reset,
 
@@ -41,13 +41,15 @@ pub(super) enum EscapeSequence {
     Unimplemented(u8),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub(super) enum ColorType {
+    PrimaryForeground,
+    PrimaryBackground,
     Normal(Color),
     Bright(Color),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub(super) enum Color {
     Black,
     Red,
