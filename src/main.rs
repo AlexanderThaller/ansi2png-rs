@@ -24,20 +24,20 @@ fn main() {
 
     let mut input = std::io::BufReader::new(std::fs::File::open(opt.input_path).unwrap());
 
-    let font = Vec::from(
-        include_bytes!("../resources/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf") as &[u8],
-    );
+    let font = Vec::from(include_bytes!(
+        "../resources/ttf-iosevka-term-7.2.6/iosevka-term-extended.ttf"
+    ) as &[u8]);
 
     let font_bold = Vec::from(include_bytes!(
-        "../resources/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono-Bold.ttf"
+        "../resources/ttf-iosevka-term-7.2.6/iosevka-term-extendedbold.ttf"
     ) as &[u8]);
 
     let font_italic = Vec::from(include_bytes!(
-        "../resources/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono-Oblique.ttf"
+        "../resources/ttf-iosevka-term-7.2.6/iosevka-term-extendeditalic.ttf"
     ) as &[u8]);
 
     let font_italic_bold = Vec::from(include_bytes!(
-        "../resources/dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono-BoldOblique.ttf"
+        "../resources/ttf-iosevka-term-7.2.6/iosevka-term-extendedbolditalic.ttf"
     ) as &[u8]);
 
     let font = Font::try_from_vec(font).unwrap();
