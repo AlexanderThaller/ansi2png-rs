@@ -20,3 +20,9 @@ image = "0.24"
 imageproc = "0.23"
 rusttype = "0.9"
 vte = "0.10"
+
+[profile.release]
+lto = "fat"
+opt-level = 3
+panic = "abort"
+strip = "debuginfo"
