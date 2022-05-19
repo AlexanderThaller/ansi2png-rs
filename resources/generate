@@ -3,4 +3,3 @@
 cargo run --release -- -i tests.ansi -o tests.png
 cargo run --release -- -i out.ansi -o out.png
 ./generate_ansi2png_help
-./generate_msgcat
