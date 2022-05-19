@@ -1,0 +1,93 @@
+Version: [32m2.0.13[0m
+OpenSSL 1.1.1o  3 May 2022
+[0m
+[32mConnected to 2606:2800:220:1:248:1893:25c8:1946[0m
+
+Testing SSL server [32mexample.com[0m on port [32m443[0m using SNI name [32mexample.com[0m
+
+  [1;34mSSL/TLS Protocols:[0m
+TLSv1.0   [33menabled[0m
+TLSv1.1   [33menabled[0m
+TLSv1.2   enabled
+TLSv1.3   [32menabled[0m
+
+  [1;34mTLS Fallback SCSV:[0m
+Server [32msupports[0m TLS Fallback SCSV
+
+  [1;34mTLS renegotiation:[0m
+[32mSecure[0m session renegotiation supported
+
+  [1;34mTLS Compression:[0m
+[31mOpenSSL version does not support compression[0m
+[31mRebuild with zlib1g-dev package for zlib support[0m
+
+  [1;34mHeartbleed:[0m
+TLSv1.3 [32mnot vulnerable[0m to heartbleed
+TLSv1.2 [32mnot vulnerable[0m to heartbleed
+TLSv1.1 [32mnot vulnerable[0m to heartbleed
+TLSv1.0 [32mnot vulnerable[0m to heartbleed
+
+  [1;34mSupported Server Cipher(s):[0m
+[32mPreferred[0m [32mTLSv1.3[0m  [32m256[0m bits  TLS_AES_256_GCM_SHA384        Curve P-256 DHE 256
+Accepted  [32mTLSv1.3[0m  [32m256[0m bits  TLS_CHACHA20_POLY1305_SHA256  Curve P-256 DHE 256
+Accepted  [32mTLSv1.3[0m  [32m128[0m bits  TLS_AES_128_GCM_SHA256        Curve P-256 DHE 256
+[32mPreferred[0m TLSv1.2  [32m128[0m bits  [32mECDHE-RSA-AES128-GCM-SHA256  [0m Curve P-256 DHE 256
+Accepted  TLSv1.2  [32m256[0m bits  [32mECDHE-RSA-AES256-GCM-SHA384  [0m Curve P-256 DHE 256
+Accepted  TLSv1.2  [32m128[0m bits  [32mDHE-RSA-AES128-GCM-SHA256    [0m DHE 2048 bits
+Accepted  TLSv1.2  [32m256[0m bits  [32mDHE-RSA-AES256-GCM-SHA384    [0m DHE 2048 bits
+Accepted  TLSv1.2  [32m128[0m bits  ECDHE-RSA-AES128-SHA256       Curve P-256 DHE 256
+Accepted  TLSv1.2  [32m128[0m bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
+Accepted  TLSv1.2  [32m256[0m bits  ECDHE-RSA-AES256-SHA384       Curve P-256 DHE 256
+Accepted  TLSv1.2  [32m256[0m bits  ECDHE-RSA-AES256-SHA          Curve P-256 DHE 256
+Accepted  TLSv1.2  [32m128[0m bits  DHE-RSA-AES128-SHA256         DHE 2048 bits
+Accepted  TLSv1.2  [32m128[0m bits  DHE-RSA-AES128-SHA            DHE 2048 bits
+Accepted  TLSv1.2  [32m256[0m bits  DHE-RSA-AES256-SHA256         DHE 2048 bits
+Accepted  TLSv1.2  [32m256[0m bits  DHE-RSA-AES256-SHA            DHE 2048 bits
+Accepted  TLSv1.2  [32m128[0m bits  AES128-GCM-SHA256            
+Accepted  TLSv1.2  [32m256[0m bits  DHE-RSA-CAMELLIA256-SHA       DHE 2048 bits
+Accepted  TLSv1.2  [32m128[0m bits  DHE-RSA-CAMELLIA128-SHA       DHE 2048 bits
+Accepted  TLSv1.2  [32m256[0m bits  AES256-SHA                   
+Accepted  TLSv1.2  [32m256[0m bits  CAMELLIA256-SHA              
+Accepted  TLSv1.2  [32m128[0m bits  AES128-SHA                   
+Accepted  TLSv1.2  [32m128[0m bits  CAMELLIA128-SHA              
+Accepted  TLSv1.2  [32m128[0m bits  DHE-RSA-SEED-SHA              DHE 2048 bits
+Accepted  TLSv1.2  [32m128[0m bits  SEED-SHA                     
+[32mPreferred[0m [33mTLSv1.1[0m  [32m128[0m bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
+Accepted  [33mTLSv1.1[0m  [32m256[0m bits  ECDHE-RSA-AES256-SHA          Curve P-256 DHE 256
+Accepted  [33mTLSv1.1[0m  [32m128[0m bits  DHE-RSA-AES128-SHA            DHE 2048 bits
+Accepted  [33mTLSv1.1[0m  [32m256[0m bits  DHE-RSA-AES256-SHA            DHE 2048 bits
+Accepted  [33mTLSv1.1[0m  [32m256[0m bits  DHE-RSA-CAMELLIA256-SHA       DHE 2048 bits
+Accepted  [33mTLSv1.1[0m  [32m128[0m bits  DHE-RSA-CAMELLIA128-SHA       DHE 2048 bits
+Accepted  [33mTLSv1.1[0m  [32m256[0m bits  AES256-SHA                   
+Accepted  [33mTLSv1.1[0m  [32m256[0m bits  CAMELLIA256-SHA              
+Accepted  [33mTLSv1.1[0m  [32m128[0m bits  AES128-SHA                   
+Accepted  [33mTLSv1.1[0m  [32m128[0m bits  CAMELLIA128-SHA              
+Accepted  [33mTLSv1.1[0m  [32m128[0m bits  DHE-RSA-SEED-SHA              DHE 2048 bits
+Accepted  [33mTLSv1.1[0m  [32m128[0m bits  SEED-SHA                     
+[32mPreferred[0m [33mTLSv1.0[0m  [32m128[0m bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
+Accepted  [33mTLSv1.0[0m  [32m256[0m bits  ECDHE-RSA-AES256-SHA          Curve P-256 DHE 256
+Accepted  [33mTLSv1.0[0m  [32m128[0m bits  DHE-RSA-AES128-SHA            DHE 2048 bits
+Accepted  [33mTLSv1.0[0m  [32m256[0m bits  DHE-RSA-AES256-SHA            DHE 2048 bits
+Accepted  [33mTLSv1.0[0m  [32m256[0m bits  DHE-RSA-CAMELLIA256-SHA       DHE 2048 bits
+Accepted  [33mTLSv1.0[0m  [32m128[0m bits  DHE-RSA-CAMELLIA128-SHA       DHE 2048 bits
+Accepted  [33mTLSv1.0[0m  [32m256[0m bits  AES256-SHA                   
+Accepted  [33mTLSv1.0[0m  [32m256[0m bits  CAMELLIA256-SHA              
+Accepted  [33mTLSv1.0[0m  [32m128[0m bits  AES128-SHA                   
+Accepted  [33mTLSv1.0[0m  [32m128[0m bits  CAMELLIA128-SHA              
+Accepted  [33mTLSv1.0[0m  [32m128[0m bits  DHE-RSA-SEED-SHA              DHE 2048 bits
+Accepted  [33mTLSv1.0[0m  [32m128[0m bits  SEED-SHA                     
+
+  [1;34mServer Key Exchange Group(s):[0m
+TLSv1.3  [32m128[0m bits  secp256r1 (NIST P-256)[0m
+TLSv1.2  [32m128[0m bits  secp256r1 (NIST P-256)[0m
+
+  [1;34mSSL Certificate:[0m
+Signature Algorithm: [32msha256WithRSAEncryption[0m
+RSA Key Strength:    2048
+
+Subject:  www.example.org
+Altnames: DNS:www.example.org, DNS:example.net, DNS:example.edu, DNS:example.com, DNS:example.org, DNS:www.example.com, DNS:www.example.edu, DNS:www.example.net
+Issuer:   DigiCert TLS RSA SHA256 2020 CA1
+
+Not valid before: [32mMar 14 00:00:00 2022 GMT[0m
+Not valid after:  [32mMar 14 23:59:59 2023 GMT[0m
