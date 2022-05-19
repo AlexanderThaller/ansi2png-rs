@@ -3,7 +3,7 @@
 [0m[0m[0m[0mConvert ansi output to pngs[0m[0m
 [0m[0m
 [0m[0m[33mUSAGE:[0m[0m
-    [0m[0mansi2png-rs --input-path <INPUT_PATH> --output-path <OUTPUT_PATH>[0m[0m
+    [0m[0mansi2png-rs [OPTIONS] --input-path <INPUT_PATH> --output-path <OUTPUT_PATH>[0m[0m
 
 [0m[0m[33mOPTIONS:
 [0m[0m    [0m[0m[32m-h[0m[0m, [0m[0m[32m--help[0m[0m                         [0m[0mPrint help information[0m[0m
@@ -11,5 +11,6 @@
 [0m[0m                                       [0m[0muses ANSI escape codes[0m[0m
 [0m[0m    [0m[0m[32m-o[0m[0m, [0m[0m[32m--output-path[0m[0m [0m[0m[32m<OUTPUT_PATH>[0m[0m    [0m[0mPath to output file. Will always write a png regardless of[0m[0m
 [0m[0m                                       [0m[0mfile extenstion[0m[0m
+[0m[0m    [0m[0m[32m-p[0m[0m, [0m[0m[32m--png-width[0m[0m [0m[0m[32m<PNG_WIDTH>[0m[0m        [0m[0mMaximum width of the png[0m[0m
 [0m[0m    [0m[0m[32m-V[0m[0m, [0m[0m[32m--version[0m[0m                      [0m[0mPrint version information[0m[0m[0m[0m[0m[0m
 [0m

@@ -52,6 +52,7 @@ fn main() {
     };
 
     let pallete = Palette::Custom;
+    let png_width = opt.png_width;
 
     let mut statemachine = Parser::new();
     let mut performer = printer::new(Settings {
@@ -62,6 +63,7 @@ fn main() {
         font_height,
         scale,
         pallete,
+        png_width,
     });
 
     let mut buf = [0; 2048];

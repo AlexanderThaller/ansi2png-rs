@@ -2,5 +2,5 @@
 
 cargo run --release -- -i tests.ansi -o tests.png
 cargo run --release -- -i out.ansi -o out.png
-cargo run --release -- -i sslscan.ansi -o sslscan.png
+cargo run --release -- -i sslscan.ansi -o sslscan.png --png-width 2000
 ./generate_ansi2png_help

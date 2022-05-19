@@ -27,12 +27,14 @@ pub(super) struct Settings<'a> {
     pub(super) font_height: f32,
     pub(super) scale: Scale,
     pub(super) pallete: Palette,
+    pub(super) png_width: Option<u32>,
 }
 
 #[derive(Debug, Default)]
 struct SettingsInternal {
     glyph_advance_width: f32,
     new_line_distance: u32,
+    png_width: Option<u32>,
 }
 
 #[derive(Debug)]
@@ -80,9 +82,12 @@ pub(super) fn new(settings: Settings) -> Printer {
 
     let new_line_distance = settings.font_height as u32;
 
+    let png_width = settings.png_width;
+
     let settings_internal = SettingsInternal {
         glyph_advance_width,
         new_line_distance,
+        png_width,
     };
 
     Printer {
@@ -121,6 +126,13 @@ impl<'a> Perform for Printer<'a> {
         );
 
         self.state.current_x += self.settings_internal.glyph_advance_width as u32;
+
+        if let Some(png_width) = self.settings_internal.png_width {
+            if self.state.current_x > png_width {
+                self.state.current_x = 0;
+                self.state.current_y += self.settings_internal.new_line_distance;
+            }
+        }
     }
 
     fn execute(&mut self, byte: u8) {

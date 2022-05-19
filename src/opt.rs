@@ -14,4 +14,8 @@ pub(super) struct Opt {
     /// extenstion.
     #[structopt(short, long)]
     pub(super) output_path: PathBuf,
+
+    /// Maximum width of the png
+    #[structopt(short, long)]
+    pub(super) png_width: Option<u32>,
 }
