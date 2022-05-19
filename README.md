@@ -6,6 +6,11 @@ Read ansi sequences from a file and generate a png from it.
 ansi2png-rs --input-path input.ansi --output-path output.png
 ```
 
+Optionally the desired width of the png can be specified
+```
+ansi2png-rs --input-path input.ansi --output-path output.png --png-width 1000
+```
+
 ## Examples
 
 Generated from [resources/out.ansi](resources/out.ansi):
