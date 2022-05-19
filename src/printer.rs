@@ -287,8 +287,8 @@ impl<'a> From<Printer<'a>> for RgbImage {
             draw_text_mut(
                 &mut image,
                 Rgb(printer.settings.pallete.get_color(entry.foreground_color)),
-                *x,
-                *y,
+                (*x).try_into().unwrap(),
+                (*y).try_into().unwrap(),
                 printer.settings.scale,
                 font,
                 &entry.character.to_string(),

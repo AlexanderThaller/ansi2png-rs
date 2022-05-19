@@ -1,27 +1,17 @@
+use clap::Parser;
 use std::path::PathBuf;
-use structopt::{
-    clap::AppSettings::{
-        ColoredHelp,
-        GlobalVersion,
-        NextLineHelp,
-        VersionlessSubcommands,
-    },
-    StructOpt,
-};
 
 /// Convert ansi output to pngs
-#[derive(StructOpt, Debug)]
-#[structopt(
-    global_settings = &[ColoredHelp, VersionlessSubcommands, NextLineHelp, GlobalVersion]
-)]
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
 pub(super) struct Opt {
     /// Path to the input file. File should contain utf8 text that uses ANSI
     /// escape codes.
-    #[structopt(short, long, default_value = "input.ansi")]
+    #[structopt(short, long)]
     pub(super) input_path: PathBuf,
 
     /// Path to output file. Will always write a png regardless of file
     /// extenstion.
-    #[structopt(short, long, default_value = "output.png")]
+    #[structopt(short, long)]
     pub(super) output_path: PathBuf,
 }

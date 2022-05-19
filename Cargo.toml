@@ -10,13 +10,13 @@ license = "MIT"
 readme = "README.md"
 repository = "https://github.com/AlexanderThaller/ansi2png-rs"
 
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-image = "0.23"
-imageproc = "0.22"
+clap = { version = "3", features = ["derive"] }
+image = "0.24"
+imageproc = "0.23"
 rusttype = "0.9"
-structopt = "0.3"
 vte = "0.10"

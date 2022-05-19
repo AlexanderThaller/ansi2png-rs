@@ -1,10 +1,10 @@
+use clap::Parser as _;
 use image::RgbImage;
 use rusttype::{
     Font,
     Scale,
 };
 use std::io::Read;
-use structopt::StructOpt;
 use vte::Parser;
 
 mod color;
@@ -20,7 +20,7 @@ use crate::{
 };
 
 fn main() {
-    let opt = Opt::from_args();
+    let opt = Opt::parse();
 
     let mut input = std::io::BufReader::new(std::fs::File::open(opt.input_path).unwrap());
 
