@@ -1,5 +1,6 @@
 use clap::Parser as _;
 use image::RgbImage;
+use include_flate::flate;
 use rusttype::{
     Font,
     Scale,
@@ -24,26 +25,22 @@ fn main() {
 
     let mut input = std::io::BufReader::new(std::fs::File::open(opt.input_path).unwrap());
 
-    let font = Vec::from(include_bytes!(
-        "../resources/ttf-iosevka-term-7.2.6/iosevka-term-extended.ttf"
-    ) as &[u8]);
+    flate!(static FONT: [u8] from
+        "resources/ttf-iosevka-term-7.2.6/iosevka-term-extended.ttf");
 
-    let font_bold = Vec::from(include_bytes!(
-        "../resources/ttf-iosevka-term-7.2.6/iosevka-term-extendedbold.ttf"
-    ) as &[u8]);
+    flate!(static FONT_BOLD: [u8] from
+        "resources/ttf-iosevka-term-7.2.6/iosevka-term-extendedbold.ttf");
 
-    let font_italic = Vec::from(include_bytes!(
-        "../resources/ttf-iosevka-term-7.2.6/iosevka-term-extendeditalic.ttf"
-    ) as &[u8]);
+    flate!(static FONT_ITALIC: [u8] from
+        "resources/ttf-iosevka-term-7.2.6/iosevka-term-extendeditalic.ttf");
 
-    let font_italic_bold = Vec::from(include_bytes!(
-        "../resources/ttf-iosevka-term-7.2.6/iosevka-term-extendedbolditalic.ttf"
-    ) as &[u8]);
+    flate!(static FONT_ITALIC_BOLD: [u8] from
+        "resources/ttf-iosevka-term-7.2.6/iosevka-term-extendedbolditalic.ttf");
 
-    let font = Font::try_from_vec(font).unwrap();
-    let font_bold = Font::try_from_vec(font_bold).unwrap();
-    let font_italic = Font::try_from_vec(font_italic).unwrap();
-    let font_italic_bold = Font::try_from_vec(font_italic_bold).unwrap();
+    let font = Font::try_from_bytes(&FONT).unwrap();
+    let font_bold = Font::try_from_bytes(&FONT_BOLD).unwrap();
+    let font_italic = Font::try_from_bytes(&FONT_ITALIC).unwrap();
+    let font_italic_bold = Font::try_from_bytes(&FONT_ITALIC_BOLD).unwrap();
 
     let font_height = 50.0;
     let scale = Scale {
