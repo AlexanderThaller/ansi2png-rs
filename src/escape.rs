@@ -89,7 +89,7 @@ impl EscapeSequence {
                     // background
                     48 => vec![Self::BackgroundColor(color)],
 
-                    _ => return vec![Self::Unimplemented(vec![**fg_or_bg, 5, **n])],
+                    _ => vec![Self::Unimplemented(vec![**fg_or_bg, 5, **n])],
                 }
             }
 
