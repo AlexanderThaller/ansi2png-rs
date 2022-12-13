@@ -68,13 +68,15 @@ fn main() {
     loop {
         match input.read(&mut buf) {
             Ok(0) => break,
+
             Ok(n) => {
                 for byte in &buf[..n] {
                     statemachine.advance(&mut performer, *byte);
                 }
             }
+
             Err(err) => {
-                println!("err: {}", err);
+                println!("err: {err}");
                 break;
             }
         }
