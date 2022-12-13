@@ -136,16 +136,15 @@ impl<'a> Perform for Printer<'a> {
     }
 
     fn execute(&mut self, byte: u8) {
-        if let Some(last_execute_byte) = self.state.last_execute_byte {
-            // Skip printing another newline when `\n\r` was found.
-            if byte == 0x0a && last_execute_byte == 0x0d {
-                return;
-            }
-        }
-
         match byte {
-            // newlines
-            0x0d | 0x0a => {
+            // ^M 	0x0D 	CR 	Carriage Return 	Moves the cursor to column zero.
+            0x0d => {
+                self.state.current_x = 0;
+            }
+
+            // ^J 	0x0A 	LF 	Line Feed 	Moves to next line, scrolls the display up if at bottom of the
+            // screen. Usually does not move horizontally, though programs should not rely on this.
+            0x0a => {
                 self.state.current_x = 0;
                 self.state.current_y += self.settings_internal.new_line_distance;
             }

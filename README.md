@@ -24,3 +24,6 @@ Generated from [resources/sslscan.ansi](resources/sslscan.ansi) width a png widt
 
 Generated from [resources/tests.ansi](resources/tests.ansi):
 !["example tests"](resources/tests.png)
+
+Generated from [resources/rsync.ansi](resources/rsync.ansi):
+!["example rsync"](resources/rsync.png)
