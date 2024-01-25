@@ -18,9 +18,9 @@ edition = "2021"
 clap = { version = "4", features = ["derive"] }
 image = "0.24"
 imageproc = "0.23"
-include-flate = "0.3.0"
+include-flate = "0.3"
 rusttype = "0.9"
-vte = "0.13.0"
+vte = "0.13"
 
 [profile.release]
 lto = "fat"
