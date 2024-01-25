@@ -1,6 +1,6 @@
 [package]
 name = "ansi2png-rs"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Alexander Thaller <alexander.thaller@trivago.com>"]
 
 description = "Convert ansi output to pngs"
@@ -18,9 +18,9 @@ edition = "2021"
 clap = { version = "4", features = ["derive"] }
 image = "0.24"
 imageproc = "0.23"
-include-flate = "0.1"
+include-flate = "0.3.0"
 rusttype = "0.9"
-vte = "0.11"
+vte = "0.13.0"
 
 [profile.release]
 lto = "fat"
