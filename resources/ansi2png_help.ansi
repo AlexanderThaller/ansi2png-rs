@@ -1,11 +1,10 @@
-[0mConvert ansi output to pngs[0m[0m
-[0m[0m
-[0m[0m[1m[4mUsage:[0m[0m [0m[0m[1mansi2png-rs[0m[0m [OPTIONS][0m[0m [0m[0m[1m--[0m[0m[1minput-path[0m[0m [0m[0m<INPUT_PATH>[0m[0m [0m[0m[1m--[0m[0m[1moutput-path[0m[0m [0m[0m<OUTPUT_PATH>[0m[0m
+Convert ansi output to pngs
 
-[0m[0m[1m[4mOptions:
-[0m[0m  [0m[0m[1m-i[0m[0m, [0m[0m[1m--input-path[0m[0m [0m[0m<INPUT_PATH>[0m[0m    [0m[0mPath to the input file. File should contain utf8 text that uses ANSI escape codes[0m[0m
-[0m[0m  [0m[0m[1m-o[0m[0m, [0m[0m[1m--output-path[0m[0m [0m[0m<OUTPUT_PATH>[0m[0m  [0m[0mPath to output file. Will always write a png regardless of file extenstion[0m[0m
-[0m[0m  [0m[0m[1m-p[0m[0m, [0m[0m[1m--png-width[0m[0m [0m[0m<PNG_WIDTH>[0m[0m      [0m[0mMaximum width of the png[0m[0m
-[0m[0m  [0m[0m[1m-h[0m[0m, [0m[0m[1m--help[0m[0m                       [0m[0mPrint help information[0m[0m
-[0m[0m  [0m[0m[1m-V[0m[0m, [0m[0m[1m--version[0m[0m                    [0m[0mPrint version information[0m[0m
-[0m
+[1m[4mUsage:[0m [1mansi2png-rs[0m [OPTIONS] [1m--input-path[0m <INPUT_PATH> [1m--output-path[0m <OUTPUT_PATH>
+
+[1m[4mOptions:[0m
+  [1m-i[0m, [1m--input-path[0m <INPUT_PATH>    Path to the input file. File should contain utf8 text that uses ANSI escape codes
+  [1m-o[0m, [1m--output-path[0m <OUTPUT_PATH>  Path to output file. Will always write a png regardless of file extenstion
+  [1m-p[0m, [1m--png-width[0m <PNG_WIDTH>      Maximum width of the png
+  [1m-h[0m, [1m--help[0m                       Print help
+  [1m-V[0m, [1m--version[0m                    Print version
