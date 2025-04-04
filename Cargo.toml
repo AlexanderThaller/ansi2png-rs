@@ -1,6 +1,6 @@
 [package]
 name = "ansi2png-rs"
-version = "0.3.1"
+version = "0.4.0"
 authors = ["Alexander Thaller <alexander.thaller@trivago.com>"]
 
 description = "Convert ansi output to pngs"
