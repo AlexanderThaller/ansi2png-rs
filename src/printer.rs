@@ -112,7 +112,7 @@ impl Default for State {
     }
 }
 
-impl<'a> Perform for Printer<'a> {
+impl Perform for Printer<'_> {
     fn print(&mut self, character: char) {
         self.state.text.insert(
             (self.state.current_x, self.state.current_y),
@@ -142,8 +142,9 @@ impl<'a> Perform for Printer<'a> {
                 self.state.current_x = 0;
             }
 
-            // ^J 	0x0A 	LF 	Line Feed 	Moves to next line, scrolls the display up if at bottom of the
-            // screen. Usually does not move horizontally, though programs should not rely on this.
+            // ^J 	0x0A 	LF 	Line Feed 	Moves to next line, scrolls the display up if at bottom of
+            // the screen. Usually does not move horizontally, though programs should
+            // not rely on this.
             0x0a => {
                 self.state.current_x = 0;
                 self.state.current_y += self.settings_internal.new_line_distance;
@@ -237,7 +238,7 @@ impl<'a> Perform for Printer<'a> {
     fn esc_dispatch(&mut self, _intermediates: &[u8], _ignore: bool, _byte: u8) {}
 }
 
-impl<'a> From<Printer<'a>> for RgbImage {
+impl From<Printer<'_>> for RgbImage {
     fn from(printer: Printer) -> Self {
         let width = printer
             .state
