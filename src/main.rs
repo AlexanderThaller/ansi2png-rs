@@ -26,16 +26,16 @@ fn main() {
     let mut input = std::io::BufReader::new(std::fs::File::open(opt.input_path).unwrap());
 
     flate!(static FONT: [u8] from
-        "resources/ttf-iosevka-term-7.2.6/iosevka-term-extended.ttf");
+        "fonts/iosevka-term-extended.ttf");
 
     flate!(static FONT_BOLD: [u8] from
-        "resources/ttf-iosevka-term-7.2.6/iosevka-term-extendedbold.ttf");
+        "fonts/iosevka-term-extendedbold.ttf");
 
     flate!(static FONT_ITALIC: [u8] from
-        "resources/ttf-iosevka-term-7.2.6/iosevka-term-extendeditalic.ttf");
+        "fonts/iosevka-term-extendeditalic.ttf");
 
     flate!(static FONT_ITALIC_BOLD: [u8] from
-        "resources/ttf-iosevka-term-7.2.6/iosevka-term-extendedbolditalic.ttf");
+        "fonts/iosevka-term-extendedbolditalic.ttf");
 
     let font = Font::try_from_bytes(&FONT).unwrap();
     let font_bold = Font::try_from_bytes(&FONT_BOLD).unwrap();
